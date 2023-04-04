@@ -1,0 +1,53 @@
+﻿<Window x:Class="ShellHotrReload.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShellHotrReload"
+        mc:Ignorable="d"
+        Title="シェルを自動でリロードするやつ" Height="450" Width="800">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0" Margin="3">
+			<GroupBox Header="リロード時に実行するスクリプト (サーフェス変更と長めのウェイトを設定しておくと表情を固定できて便利)" >
+				<StackPanel>
+					<TextBlock Text="例: \0 でメインキャラの操作。 \s[0] でsurface0に切り替え。 \_w[1000000] で1000秒のウェイト(その間表情を維持)"/>
+					<TextBox Text="{Binding AfterReloadScript, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				</StackPanel>
+			</GroupBox>
+		</StackPanel>
+		
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Grid Grid.Column="0">
+
+				<GroupBox Header="起動中のゴーストを選択">
+					<ListView x:Name="GhostList" ItemsSource="{Binding Ghosts}" SelectedItem="{Binding SelectedGhost, Mode=TwoWay}">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Name}" />
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</GroupBox>
+			</Grid>
+
+			<Grid Grid.Column="1">
+				<GroupBox Header="リロードするシェルを選択">
+					<ListView Grid.Row="1" ItemsSource="{Binding SelectedItem.ShellDirectories, ElementName=GhostList}" SelectedItem="{Binding SelectedShell, Mode=TwoWay}">
+
+					</ListView>
+				</GroupBox>
+			</Grid>
+
+		</Grid>
+    </Grid>
+</Window>
